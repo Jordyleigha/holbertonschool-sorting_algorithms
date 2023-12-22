@@ -62,7 +62,7 @@ void quick_sort_rec(int *array, int start, int end)
 }
 
 /**
- * @swap - swap vars
+ * @swap - swap variables
  *
  * @a: index pointer
  * @b: index pointer
