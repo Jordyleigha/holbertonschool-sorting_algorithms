@@ -1,77 +1,75 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
 #include "sort.h"
-/**
- * quick_sort - Sorts a list of integers in ascending
- * order using the Quick sort
- * algorithm and the Lomuto partition scheme
- * @array: The array to be sorted
- * @size: Number of elements in @array
- * Return: Nothing
- * Description: This function sorts an array of integers in ascending order
- * using the Quick sort algorithm
- */
-void quick_sort(int *array, size_t size)
-{
-	if (array == NULL || size < 2)
-		return;
 
-	quick_sort_rec(array, 0, size - 1);
-}
 /**
- * quick_sort_rec - Sorts a list of integers in ascending
+ * partition - partitions an array or subarray
+ * @array: the array or subarray being partitioned
+ * @low: the first index
+ * @high: the last index
+ * @size: the size of the array
  *
- * @array: pointer to array
- * @start: start
- * @end: end
- */
-void quick_sort_rec(int *array, int start, int end)
+ * Return: the index of the partition
+*/
+
+
+int partition(int *array, int low, int high, size_t size)
 {
-	int pivot, i, j;
+	int pivot = array[high];
+	int i = (low - 1), j, temp;
 
-	if (start >= end)
-		return;
-
-	pivot = array[end];
-	i = start;
-	j = end - 1;
-
-	while (i <= j)
+	for (j = low; j <= high - 1; j++)
 	{
-		while (array[i] < pivot)
-			i++;
-		while (array[j] > pivot && j >= 0)
-			j--;
-		if (i <= j)
+		if (array[j] <= pivot)
 		{
-			swap(&array[i], &array[j]);
-			print_array(array, end + 1);
 			i++;
-			j--;
-
+			temp = array[i];
+			array[i] = array[j];
+			array[j] = temp;
 		}
 	}
-	swap(&array[i], &array[end]);
-	print_array(array, end + 1);
-	swap(&array[i], &array[end]);
-	print_array(array, end + 1);
-	quick_sort_rec(array, start, i - 1);
-	swap(&array[i], &array[end]);
-	print_array(array, end + 1);
-	quick_sort_rec(array, i + 1, end);
-	swap(&array[i], &array[end]);
-	print_array(array, end + 1);
+	if (array[high] != array[i + 1])
+	{
+		temp = array[high];
+		array[high] = array[i + 1];
+		array[i + 1] = temp;
+		print_array(array, size);
+	}
+	return (i + 1);
 }
 
 /**
- * swap - trade variables
- *
- * @a: index pointer
- * @b: index pointer
- */
-void swap(int *a, int *b)
-{
-	int temp;
+ * sort - recursively sorts the array, using partition to form subarrays
+ * @array: the array, or subarray, being sorted
+ * @low: the lowest index of the current array
+ * @high: the highest index of the current array
+ * @size: the size of the array
+*/
 
-	temp = *a;
-	*a = *b;
-	*b = temp;
+void sort(int *array, int low, int high, size_t size)
+{
+	int index;
+
+	if (low < high)
+	{
+		index = partition(array, low, high, size);
+
+		sort(array, low, index - 1, size);
+		sort(array, index + 1, high, size);
+	}
+}
+
+/**
+ * quick_sort - calls sort to recursively sort an array
+ * @arr: the array to be sorted
+ * @size: the size of the array
+*/
+
+void quick_sort(int *arr, size_t size)
+{
+
+	int high = size - 1, low = 0;
+
+	sort(arr, low, high, size);
 }
