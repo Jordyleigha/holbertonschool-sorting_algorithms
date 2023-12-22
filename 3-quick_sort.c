@@ -1,12 +1,13 @@
 #include "sort.h"
 /**
- * quick_sort - Sorts a list of integers in ascending order using the Quick sort
+ * quick_sort - Sorts a list of integers in ascending 
+ * order using the Quick sort
  * algorithm and the Lomuto partition scheme
  * @array: The array to be sorted
  * @size: Number of elements in @array
  * Return: Nothing
  * Description: This function sorts an array of integers in ascending order
- * using the Quick sort algorithm 
+ * using the Quick sort algorithm
  */
 void quick_sort(int *array, size_t size)
 {
@@ -17,7 +18,7 @@ void quick_sort(int *array, size_t size)
 }
 /**
  * quick_sort_rec - Sorts a list of integers in ascending
- * 
+ *
  * @array: pointer to array
  * @start: start
  * @end: end
@@ -64,7 +65,7 @@ void quick_sort_rec(int *array, int start, int end)
  * @swap - swap vars
  * 
  * @a: index pointer
- * @b: index pointer 
+ * @b: index pointer
  */
 void swap(int *a, int *b)
 {
