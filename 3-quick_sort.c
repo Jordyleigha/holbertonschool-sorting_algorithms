@@ -13,8 +13,10 @@ void quick_sort(int *array, size_t size)
     quick_sort(array + pivot_index + 1, size - pivot_index - 1);
 }
 
-size_t partition(int *array, size_t size){
+size_t partition(int *array, size_t size)
+{
     int pivot = array[size - 1];
+    int temp;
     size_t i = 0, j;
 
     for (j = 0; j < size - 1; j++) {
