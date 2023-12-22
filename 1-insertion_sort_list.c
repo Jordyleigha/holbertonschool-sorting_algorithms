@@ -1,57 +1,68 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "sort.h"
-
 /**
- * swap_nodes - Swaps two nodes in a doubly linked list.
- * @list: A pointer to the head of the list.
- * @a: The first node to swap.
- * @b: The second node to swap.
- */
-void swap_nodes(listint_t **list, listint_t *a, listint_t *b)
-{
-	if (a->prev != NULL)
-		a->prev->next = b;
-	if (b->next != NULL)
-		b->next->prev = a;
-
-	a->next = b->next;
-	b->prev = a->prev;
-	a->prev = b;
-	b->next = a;
-
-	if (b->prev == NULL)
-		*list = b;
-
-	print_list(*list);
-}
-
-/**
- * insertion_sort_list - Sorts a doubly linked list using insertion sort.
- * @list: A pointer to the head of the list.
+ * insertion_sort_list - Sorts a linked list of integers in ascending order
+ * @list: The list to be sorted
+ * Return: Nothing
+ * Description: This function sorts a linked list of integers in ascending order
  */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *tracknode = NULL;
-	listint_t *last = NULL;
-	listint_t *placeholder = NULL;
+	listint_t *current, *prev;
+	listint_t *next;
 
-	if (list == NULL || *list == NULL || (*list)->next == NULL)
+	if (!list || !(*list))
 		return;
 
-	tracknode = (*list)->next;
+	if (!(*list)->next)
+		return;
 
-	while (tracknode != NULL)
+	current = *list;
+	next = current->next;
+
+	while (next)
 	{
-		placeholder = tracknode->next;
-		last = tracknode->prev;
-
-		while (last != NULL && tracknode->n < last->n)
+		if (current->n > next->n)
 		{
-			swap_nodes(list, last, tracknode);
-			last = tracknode->prev;
+			if (current->prev)
+			{
+				current->prev->next = next;
+				next->prev = current->prev;
+				print_list(*list);
+			}
+			else
+			{
+				*list = next;
+				next->prev = NULL;
+				print_list(*list);
+			}
+			prev = next->prev;
+			print_list(*list);
+			while (prev && prev->n > next->n)
+			{
+				next->prev = prev->prev;
+				prev->next = next->next;
+				if (next->next)
+					next->next->prev = prev;
+				prev->prev = next;
+				next->next = prev;
+				prev = next->prev;
+				print_list(*list);
+			}
+			next->prev = prev;
+			print_list(*list);
+			if (prev)
+				prev->next = next;
+			else
+				*list = next;
+			current = next;
+			next = current->next;
+			print_list(*list);
 		}
-
-		tracknode = placeholder;
+		else
+		{
+			current = next;
+			next = current->next;
+			print_list(*list);
+		}
 	}
 }
